@@ -1,0 +1,4 @@
+# autobind the driver of mcp2221 usb-i2c/uart device
+ACTION=="add", SUBSYSTEM=="tty", ATTRS{idProduct}=="00dd", ATTRS{idVendor}=="04d8", RUN+="/usr/bin/nohup /home/chen/Dropbox/Projects/i2c-interface/drivers/mcp2221/driver_load.sh", OPTIONS+="last_rule"
+ACTION=="add", SUBSYSTEM=="i2c-dev", ATTRS{idProduct}=="00dd", ATTRS{idVendor}=="04d8", OWNER="%c", MODE="0666", OPTIONS+="last_rule"
+

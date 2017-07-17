@@ -1,0 +1,13 @@
+**/*.o
+**/*.a
+**/tags
+**/moc_*
+**/*.stash
+**/bin/
+**/build/
+**/test/test
+**/*.autosave
+**/*.pro.user
+**/*.swp
+**/Makefile
+**/bin/

@@ -1,0 +1,89 @@
+= Device configuration file specification
+
+The configuration file has three arrays: `registers`, `parameters` and `flags`
+Each of these array contain list of respectively `Register`, `Parameter` and `Flag`
+object
+
+== Registers
+
+`registers` is a array of object of type `Register`.
+
+.Register
+|====
+|Key|Type|Description|Misc
+
+|name|string|the register's name|*required*
+|address|integer (lower than 65535)|the register's address |*required*
+|description|string|the register's description|optional
+|writable|boolean|whether register is writable|optional
+|readble|boolean|whether register is readable|optional
+|====
+== Parameters
+
+`parameters` is a array of object of type `Parameter`.
+
+|====
+|Key|Type|Description|Misc
+
+|name|string|the register's name|*required*
+
+|addresses|array of integers (lower than 65535)|the addresses in which this parameter is stored 
+since a Parameter can have a size that doesn't fit into one single cell
+|*required* but mutually exclusive with _registers_ below
+
+|registers|array of strings|the name of the registers in which this parameter is stored
+|*required* but mutually exclusive with _addresses_ above
+
+|size| a integer (< = than addresses.length * 8)
+|if defined specify the number of bits took into consideration, the remaining
+ones are ignored|optional
+
+|description|string|the parameter's description|optional
+
+|writable|boolean|whether parameter is writable|optional but mutually exclusive with `registers` above
+
+|readble|boolean|whether parameter is readable|optional but mutually exclusive with `registers` above
+|====
+
+NOTE: `addresses` have to be written from the most significant to the least one.
+
+NOTE: If `registers` is defined instead of `addresses`, the read&write permissions
+of them must be the same
+
+== Flags
+
+`flags` is a array of object of type `Flag`.
+
+|====
+|Key|Type|Description|Misc
+
+|name|string|the flag's name|*required*
+
+|address|integer (lower than 65535)|the addresses in which the state of this flag is stored 
+|*required* but mutually exclusive with _register_ below
+
+|registers|string|the name of the register in which this flag is stored
+|*required* but mutually exclusive with _address_ above
+
+|nthbit|integer (1-8)|the position of the bit representing this flag in `address` or
+`register`|*required*
+
+|description|string|the flag's description|optional
+
+|on|string|name of the flag when on|optional
+
+|off|string|name of the flag when off|optional
+
+|writable|boolean|whether flag is writable|optional but mutually exclusive with `registers` above
+
+|readble|boolean|whether flag is readable|optional but mutually exclusive with `registers` above
+|====
+
+NOTE: The address range has been limited to 0-65535 because this program
+is meant to work with embedded devices, which can handle usually <= 16 bit
+addressing.
+If this is not true, please contradict me. I'll be pleased to refactor
+my ugly code...
+
+WARNING: For a security reason, if access permissions are not defined anywhere,
+the default permissions will be set: no write no read!
