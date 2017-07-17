@@ -2,6 +2,6 @@ TEMPLATE = subdirs
 CONFIG += ordered
 
 SUBDIRS += \
-    gui \
     device \
+    gui \
     qt_adapter \
