@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=DeviceInterface
+Exec=DeviceInterface
+Icon=DeviceInterface
+Comment=A straightforward way to interact with devices
+Categories=Development;
