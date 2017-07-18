@@ -23,13 +23,14 @@ o non è stato settato per caricarsi automaticamente.
 Ci sono allora questi step da fare:
 
 * Installare il driver 
-	* Scaricalo da [qui]( http://ww1.microchip.com/downloads/en/DeviceDoc/mcp2221_0_1.tar.gz)
+	* Scaricalo da [qui](http://ww1.microchip.com/downloads/en/DeviceDoc/mcp2221_0_1.tar.gz)
 	* Decomprimere il file
 	* Entrare nella cartella ottenuta e fare `make modules` e `sudo make install`
 	* Prova a eseguire lo script fornito nella cartella del driver `sudo ./driver_load.sh`
 	* Prova a rieseguire `i2cdetect -l` e adesso dovresti vedere il device desiderato
 * Automatizzare il caricamento del driver
-	* scaricare e muovere questo [script]() nella cartella del driver
+	* scaricare e muovere questo [script](https://raw.githubusercontent.com/free-easy/DeviceInterface/personal-use-branch/Andrea/generate_udev_rules.sh) nella cartella del driver
+	* Un eventuale `chmod u+x ./generate_udev_rules.sh` potrebbe essere necessario
 	* eseguire lo script e copiare il file prodotto `100-DeviceInterface.rules` nella cartella `/etc/udev/rules.d`
 	* eseguire questo commando: `sudo udevadm control --reload` per aggiornare le udev-rules
 
