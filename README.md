@@ -67,4 +67,6 @@ To apply a `udev-rule` follow these steps:
 - [ ] Implement CommandPanel using MVC pattern
 - [ ] Extend configuration to FirmwarePanel as well
 - [ ] Create a independent repository for `libdevice` and link it to this project
+- [ ] Don't show configuration dependent panels when there's no configuration file loaded.
+Thus no need to have a configuration file when launching the program
 through git submodule

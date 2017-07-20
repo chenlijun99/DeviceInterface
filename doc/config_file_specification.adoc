@@ -1,10 +1,53 @@
-= Device configuration file specification
+= Configuration file (in Lua)
 
-The configuration file has three arrays: `registers`, `parameters` and `flags`
-Each of these array contain list of respectively `Register`, `Parameter` and `Flag`
-object
+WARNING: This program is still incomplete.
+Something (a lot of things xD) may not work as exposed here in the documentation.
 
-== Registers
+Each time the program starts, it'll search for a config file called `.last.lua`
+at `$HOME/.config/DeviceInferface` and generate the correspondent UI.
+Obviously at the first launch `$HOME/.config/DeviceInferface` is often empty (unless
+someone has already copied a file named `.last.lua` in that directory), thus
+the program will ask for a config file.
+
+The config file is obligatory since most of the UI is based on it and it would
+be ugly to have empty widgets laid there.
+
+Whenever the program loads a config file it will copy it in `$HOME/.config/DeviceInferface`
+and make a other copy called `.last.lua`.
+Therefore, if `.last.lua` hasn't been removed, on successive launches the application will load
+the last config file one used.
+
+In fact when the user tries to select a config file, the file browser dialog will always open
+at `$HOME/.config/DeviceInferface`.
+I've decided to copy all the loaded config files in `$HOME/.config/DeviceInferface`, because
+it's the default path for the file browser when user tries to select a file.
+IMHO it's quite handy to have all the old files gathered in a unique place and given
+that config files are just some KB it's not a big problem making some copy.
+
+== Specs for the configuration file
+
+All the configuration file consists in defining a giant lua table (something similar to JSON) called `device` and another one
+called `interface`.
+
+The `device` table defines the structure and the behaviour of the device,
+whereas the `interface` table defines the UI (more precisely which values of 
+the device have to be able to be configured and monitored).
+
+=== Device
+
+In this program a device is made of:
+
+* registers: which are defined as single memory cell with an address
+* parameters: which are numeric values that a device stores (e.g. power, voltage, etc.)
+* flags: which are boolean values that a device stores
+* extra_parameters: which are numeric values stored nowhere in the device, but evaluate by used `parameters` and `flags` values.
+* operations: which are io operations of the device
+
+The `device` table has thus three sub-tables,called `registers`, `parameters` and `flags`.
+
+WARNING: The struck through fields are currently ignored. Waiting for future implementation.
+
+==== Registers
 
 `registers` is a array of object of type `Register`.
 
@@ -14,11 +57,12 @@ object
 
 |name|string|the register's name|*required*
 |address|integer (lower than 65535)|the register's address |*required*
-|description|string|the register's description|optional
-|writable|boolean|whether register is writable|optional
-|readble|boolean|whether register is readable|optional
+|[.line-through]#description#|string|the register's description|optional
+|[.line-through]#writable#|boolean|whether register is writable|optional
+|[.line-through]#readble#|boolean|whether register is readable|optional
 |====
-== Parameters
+
+==== Parameters
 
 `parameters` is a array of object of type `Parameter`.
 
@@ -31,26 +75,28 @@ object
 since a Parameter can have a size that doesn't fit into one single cell
 |*required* but mutually exclusive with _registers_ below
 
-|registers|array of strings|the name of the registers in which this parameter is stored
+|[.line-through]#registers#|array of strings|the name of the registers in which this parameter is stored
 |*required* but mutually exclusive with _addresses_ above
 
-|size| a integer (< = than addresses.length * 8)
+|size| a integer (less or equal than the number of addresses * 8)
 |if defined specify the number of bits took into consideration, the remaining
 ones are ignored|optional
 
-|description|string|the parameter's description|optional
+|[.line-through]#description#|string|the parameter's description|optional
 
-|writable|boolean|whether parameter is writable|optional but mutually exclusive with `registers` above
+|[.line-through]#writable#|boolean|whether parameter is writable|optional but mutually exclusive with `registers` above
 
-|readble|boolean|whether parameter is readable|optional but mutually exclusive with `registers` above
+|[.line-through]#readable#|boolean|whether parameter is readable|optional but mutually exclusive with `registers` above
 |====
 
 NOTE: `addresses` have to be written from the most significant to the least one.
+The same if one uses `registers`.
 
-NOTE: If `registers` is defined instead of `addresses`, the read&write permissions
-of them must be the same
+NOTE: If `registers` is defined instead of `addresses`, the read&write permissions of all the registers must
+be the same. If there are devices with values spanning multiple registers which have
+different permissiones (IMHO is strange) inform me. I'll remove this constraint.
 
-== Flags
+==== Flags
 
 `flags` is a array of object of type `Flag`.
 
@@ -62,21 +108,21 @@ of them must be the same
 |address|integer (lower than 65535)|the addresses in which the state of this flag is stored 
 |*required* but mutually exclusive with _register_ below
 
-|registers|string|the name of the register in which this flag is stored
+|[.line-through]#register#|string|the name of the register in which this flag is stored
 |*required* but mutually exclusive with _address_ above
 
 |nthbit|integer (1-8)|the position of the bit representing this flag in `address` or
 `register`|*required*
 
-|description|string|the flag's description|optional
+|[.line-through]#description#|string|the flag's description|optional
 
 |on|string|name of the flag when on|optional
 
 |off|string|name of the flag when off|optional
 
-|writable|boolean|whether flag is writable|optional but mutually exclusive with `registers` above
+|[.line-through]#writable#|boolean|whether flag is writable|optional but mutually exclusive with `registers` above
 
-|readble|boolean|whether flag is readable|optional but mutually exclusive with `registers` above
+|[.line-through]#readable#|boolean|whether flag is readable|optional but mutually exclusive with `registers` above
 |====
 
 NOTE: The address range has been limited to 0-65535 because this program
@@ -87,3 +133,6 @@ my ugly code...
 
 WARNING: For a security reason, if access permissions are not defined anywhere,
 the default permissions will be set: no write no read!
+
+==== Operations
+
