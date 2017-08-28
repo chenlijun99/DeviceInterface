@@ -11,10 +11,10 @@
 #include <device/Flag.hpp>
 #include <device/ExtraParameter.hpp>
 
-class DeviceValues
+class DeviceStructure
 {
 public:
-	DeviceValues(const sol::table &table);
+    DeviceStructure(const sol::table &table);
 
 	const Register& getRegister(const std::string &name) const;
 	const Parameter& getParameter(const std::string &name) const;

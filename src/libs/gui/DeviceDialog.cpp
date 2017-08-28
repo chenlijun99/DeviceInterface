@@ -21,6 +21,11 @@ DeviceDialog::DeviceDialog(QWidget *parent)
 	setupEvents();
 }
 
+DeviceDialog::~DeviceDialog()
+{
+    delete ui_;
+}
+
 void DeviceDialog::setupEvents()
 {
 	/*

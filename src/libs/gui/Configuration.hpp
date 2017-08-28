@@ -27,7 +27,7 @@ private:
 	std::unique_ptr<UiPanelConfiguration> configurePanelConfiguration_;
 	std::unique_ptr<UiPanelConfiguration> monitoringPanelConfiguration_;
 
-	std::unique_ptr<DeviceValues> deviceStructure_;
+    std::unique_ptr<DeviceStructure> deviceStructure_;
 };
 
 #endif // CONFIGURATION_HPP

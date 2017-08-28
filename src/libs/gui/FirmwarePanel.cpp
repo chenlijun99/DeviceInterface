@@ -16,6 +16,10 @@ FirmwarePanel::FirmwarePanel(QWidget *parent)
 	ui_->setupInterface(this);
 	setupEvents();
 }
+FirmwarePanel::~FirmwarePanel()
+{
+    delete ui_;
+}
 
 void FirmwarePanel::setupEvents()
 {

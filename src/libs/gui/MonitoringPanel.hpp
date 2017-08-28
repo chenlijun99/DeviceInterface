@@ -16,6 +16,7 @@ class MonitoringPanel : public ConfigurableDeviceDockWidget
 	Q_OBJECT
 public:
 	MonitoringPanel(QWidget *parent = Q_NULLPTR);
+    ~MonitoringPanel();
 public slots:
 	void receiveConfiguration(std::shared_ptr<Configuration> device);
 	void receiveDevice(std::shared_ptr<Device> device) override;

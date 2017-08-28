@@ -40,8 +40,8 @@ public:
 	uint32_t getParameterMaxValue(const std::string &parameterName) const;
 	uint32_t getParameterMaxValue(const Parameter &p) const;
 
-	void setExtraParameterValue(const std::string &name, uint64_t value);
-	uint32_t getExtraParameterValue(const std::string &name) const;
+    void setExtraParameterValue(const std::string &name, const std::string &value);
+    std::string getExtraParameterValue(const std::string &name) const;
 
 	void setFlagStatus(std::string flagName, bool getValue);
 	bool getFlagStatus(std::string flagName) const;
@@ -57,7 +57,7 @@ public:
 	void update();
 	void flush();
 
-	const DeviceValues& getDeviceStructure() const;
+    const DeviceStructure& getDeviceStructure() const;
 
 private:
 	void defineFunctionsForLua();
@@ -69,11 +69,10 @@ private:
 				  uint64_t maxValue);
 
 	bool bufferedIO_;
-	std::shared_ptr<sol::state> lua_;
-	std::unique_ptr<DeviceStream> stream_;
-	std::unique_ptr<DeviceValues> values_;
-	mutable std::vector<uint8_t> buffer_;
-
+    std::shared_ptr<sol::state> lua_;
+    std::unique_ptr<DeviceStream> stream_;
+    std::unique_ptr<DeviceStructure> values_;
+    mutable std::vector<uint8_t> buffer_;
 };
 
 #endif // DEVICE_HPP

@@ -25,7 +25,7 @@ UiPanelConfiguration::UiPanelConfiguration(const sol::table &table)
 	}
 }
 
-const QVector<QString>& UiPanelConfiguration::getParamterNames() const
+const QVector<QString>& UiPanelConfiguration::getParameterNames() const
 {
 	return parameters_;
 }

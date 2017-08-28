@@ -1,14 +1,13 @@
-#ifndef UIINTERFACE_HPP
-#define UIINTERFACE_HPP
+#ifndef CONFIGURABLEUIINTERFACE_HPP
+#define CONFIGURABLEUIINTERFACE_HPP
 
 class QWidget;
 
 class ConfigurableUiInterface
 {
 public:
+    virtual ~ConfigurableUiInterface() { }
 	virtual void clearInterface(QWidget *widget);
-
-protected:
 };
 
 #endif // UIINTERFACE_HPP

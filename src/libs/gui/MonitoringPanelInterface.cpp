@@ -38,7 +38,7 @@ void MonitoringPanel::setupInterface(QDockWidget *widget,
 	}
 
 	QLabel *parameterValue;
-	for (const auto& parameterName : uiConfig.getParamterNames()) {
+	for (const auto& parameterName : uiConfig.getParameterNames()) {
 		mainLayout->addWidget(new QLabel(QString("<b>%1</b>").arg(parameterName)),
 							  (extraParameterValues.size() + parameterValues.size()) % 5,
 							  ((extraParameterValues.size() + parameterValues.size()) / 5) * 2);

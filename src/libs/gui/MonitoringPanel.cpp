@@ -16,6 +16,10 @@ MonitoringPanel::MonitoringPanel(QWidget *parent)
 
 {
 }
+MonitoringPanel::~MonitoringPanel()
+{
+    delete ui_;
+}
 
 void MonitoringPanel::receiveConfiguration(std::shared_ptr<Configuration> configuration)
 {

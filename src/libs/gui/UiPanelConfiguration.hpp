@@ -12,7 +12,7 @@ public:
 	UiPanelConfiguration(const sol::table &table);
 
 	const QVector<QString>& getExtraParamterNames() const;
-	const QVector<QString>& getParamterNames() const;
+    const QVector<QString>& getParameterNames() const;
 	const QVector<QString>& getFlagNames() const;
 
 private:

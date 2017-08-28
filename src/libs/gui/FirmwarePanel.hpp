@@ -9,8 +9,8 @@ class FirmwarePanel : public DeviceDockWidget
 {
 	Q_OBJECT
 public:
-
 	FirmwarePanel(QWidget *parent = Q_NULLPTR);
+    ~FirmwarePanel();
 public slots:
 	void toggleDevice(bool toggle);
 	void setDim(int value);

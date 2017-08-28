@@ -44,7 +44,7 @@ void ConfigurePanel::setupInterface(QDockWidget *widget,
 
 	IntLineEdit *parameterLineEdit;
 	IntLineEdit *previousParameterLineEdit;
-	for (const auto& parameterName : uiConfig.getParamterNames()) {
+    for (const auto& parameterName : uiConfig.getParameterNames()) {
 		parameterLineEdit = new IntLineEdit;
 		previousParameterLineEdit = new IntLineEdit;
 

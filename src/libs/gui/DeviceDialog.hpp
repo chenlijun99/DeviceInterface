@@ -16,6 +16,7 @@ class DeviceDialog : public QDialog
 	Q_OBJECT
 public:
 	DeviceDialog(QWidget *parent = nullptr);
+    ~DeviceDialog();
 
 	bool deviceIsI2C() const;
 	QString selectedDevice() const;

@@ -11,7 +11,7 @@ Configuration::Configuration(std::shared_ptr<sol::state> lua)
 			(interface.get<sol::table>("monitoring_panel"));
 
 	deviceStructure_ =
-			std::make_unique<DeviceValues>
+            std::make_unique<DeviceStructure>
 			(lua->get<sol::table>("device"));
 }
 

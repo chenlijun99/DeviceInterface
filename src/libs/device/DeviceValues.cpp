@@ -1,6 +1,6 @@
 #include "DeviceValues.hpp"
 
-DeviceValues::DeviceValues(const sol::table &table)
+DeviceStructure::DeviceStructure(const sol::table &table)
 {
 	auto registers = table.get<sol::optional<sol::table>>("registers");
 	auto parameters = table.get<sol::optional<sol::table>>("parameters");
@@ -29,27 +29,27 @@ DeviceValues::DeviceValues(const sol::table &table)
 }
 
 
-const Register& DeviceValues::getRegister(const std::string &name) const
+const Register& DeviceStructure::getRegister(const std::string &name) const
 {
 	return registers_.at(name);
 }
 
-const Parameter& DeviceValues::getParameter(const std::string &name) const
+const Parameter& DeviceStructure::getParameter(const std::string &name) const
 {
 	return parameters_.at(name);
 }
 
-const Flag& DeviceValues::getFlag(const std::string &name) const
+const Flag& DeviceStructure::getFlag(const std::string &name) const
 {
 	return flags_.at(name);
 }
 
-const ExtraParameter& DeviceValues::getExtraParameter(const std::string &name) const
+const ExtraParameter& DeviceStructure::getExtraParameter(const std::string &name) const
 {
 	return extraParameters_.at(name);
 }
 
-size_t DeviceValues::maxAddress() const
+size_t DeviceStructure::maxAddress() const
 {
 	// get the Parameter in the map which has the highest address
 	std::map<std::string, Parameter>::const_iterator maxElement =

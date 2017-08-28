@@ -8,6 +8,11 @@ ConfigurePanel::ConfigurePanel(QWidget *parent)
 {
 }
 
+ConfigurePanel::~ConfigurePanel()
+{
+    delete ui_;
+}
+
 void ConfigurePanel::receiveConfiguration(std::shared_ptr<Configuration> configuration)
 {
 	ConfigurableDeviceDockWidget::receiveConfiguration(configuration);
@@ -26,7 +31,7 @@ void ConfigurePanel::receiveConfiguration(std::shared_ptr<Configuration> configu
 	}
 
 	for (const auto &parameterName :
-		 configuration->getConfigurePanelConfiguration().getParamterNames()) {
+         configuration->getConfigurePanelConfiguration().getParameterNames()) {
 		Parameter parameter = configuration->getParameter(parameterName);
 		ui_->parameterLineEdits[parameterName]
 				->setRange(0, parameter.getMaxValue());
@@ -44,7 +49,7 @@ void ConfigurePanel::configure()
 	device_->setParameterValue("dim", 0);
 	device_->setBufferedIO(true);
 
-	for (const QString& parameterName : config.getParamterNames()) {
+    for (const QString& parameterName : config.getParameterNames()) {
 		if (parameterName == "dim") {
 			continue;
 		}

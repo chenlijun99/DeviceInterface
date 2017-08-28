@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent)
 	fetchConfiguration();
 }
 
+MainWindow::~MainWindow()
+{
+    delete ui_;
+}
+
 void MainWindow::setupEvents()
 {
 	connect(ui_->fetchConfigurationAction, &QAction::triggered,
@@ -58,11 +63,6 @@ void MainWindow::setupEvents()
 	QErrorMessage *errorMessage = new QErrorMessage(this);
 	connect(this, SIGNAL(errorOccured(QString)),
 			errorMessage, SLOT(showMessage(QString)));
-}
-
-MainWindow::~MainWindow()
-{
-	delete ui_;
 }
 
 void MainWindow::about()
@@ -107,7 +107,8 @@ void MainWindow::fetchConfiguration()
 	if (!lua_ && QFile::exists(dir.absoluteFilePath(".last.lua"))) {
 		lua_ = std::make_shared<sol::state>();
 		lua_->script_file(dir.absoluteFilePath(".last.lua").toStdString());
-		std::shared_ptr<Configuration> configuration =
+        lua_->open_libraries(sol::lib::base);
+        std::shared_ptr<Configuration> configuration =
 				std::make_shared<Configuration>(lua_);
 		emit configurationFetched(configuration);
 		return;
@@ -121,6 +122,7 @@ void MainWindow::fetchConfiguration()
 	if (!configFileName.isNull()) {
 		lua_ = std::make_shared<sol::state>();
 		lua_->script_file(configFileName.toStdString());
+        lua_->open_libraries(sol::lib::base);
 		QFile::copy(configFileName, dir.absoluteFilePath(QFileInfo(configFileName).fileName()));
 		QFile::remove(dir.absoluteFilePath(".last.lua"));
 		QFile::copy(configFileName, dir.absoluteFilePath(".last.lua"));
@@ -129,11 +131,3 @@ void MainWindow::fetchConfiguration()
 		emit configurationFetched(configuration);
 	}
 }
-
-//void MainWindow::resetLua()
-//{
-//	QDir dir(QDir::homePath() + "/.config/DeviceInterface");
-//	delete configuration_;
-//	configuration_ = new Configuration(dir.absoluteFilePath(".last.lua").toStdString());
-//	emit configurationFetched(configuration_);
-//}

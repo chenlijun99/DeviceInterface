@@ -34,14 +34,12 @@ public slots:
 
 	void aboutQt();
 	void about();
-//	void resetLua();
 private:
 	void setupEvents();
 
-	interface::MainWindow *ui_;
-
-	std::shared_ptr<Device> device_;
-	std::shared_ptr<sol::state> lua_;
+    std::shared_ptr<sol::state> lua_;
+    std::shared_ptr<Device> device_;
+    interface::MainWindow *ui_;
 };
 
 #endif // MAINWINDOW_H

@@ -17,6 +17,6 @@ I2CDeviceStream::I2CDeviceStream(const std::string &bus, uint16_t slaveAddress, 
 
 void I2CDeviceStream::open()
 {
-	fileDescriptor_ = ::open(bus_.c_str(), O_RDWR);
+    DeviceStream::open();
 	ioctl(fileDescriptor_, I2C_SLAVE, address_);
 }

@@ -45,9 +45,9 @@ protected:
 	void getIOFunctionsFromLua();
 
 	int fileDescriptor_;
-	std::string bus_;
+    std::string bus_;
+    std::shared_ptr<sol::state> lua_;
 	std::map<std::string, sol::protected_function> deviceFunctions_;
-	std::shared_ptr<sol::state> lua_;
 };
 
 #endif // DEVICE_H

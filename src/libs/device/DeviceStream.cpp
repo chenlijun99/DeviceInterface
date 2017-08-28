@@ -158,7 +158,7 @@ void DeviceStream::getIOFunctionsFromLua()
 		deviceFunctions_[key.as<std::string>()] = value.as<sol::protected_function>();
 	});
 
-	// set default multi read&write if user doesn't define them
+    // set default multi read&write if user didn't define them
 	if (deviceFunctions_.find("multiwrite") == deviceFunctions_.end()) {
 		auto multiwrite = [this](uint16_t startAddress, const std::vector<std::uint8_t> &data) {
 			for (decltype(data.size()) i = 0; i < data.size(); ++i) {

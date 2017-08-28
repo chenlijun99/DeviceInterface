@@ -28,7 +28,7 @@ Device::Device(const std::string &bus, uint16_t slaveAddress, const std::string 
 Device::Device(const std::string &bus, std::shared_ptr<sol::state> lua)
 	: lua_(lua),
 	  stream_(std::make_unique<DeviceStream>(bus, lua_)),
-	  values_(std::make_unique<DeviceValues>(lua_->get<sol::table>("device"))),
+      values_(std::make_unique<DeviceStructure>(lua_->get<sol::table>("device"))),
 	  buffer_(values_->maxAddress())
 {
 	defineFunctionsForLua();
@@ -38,7 +38,7 @@ Device::Device(const std::string &bus, std::shared_ptr<sol::state> lua)
 Device::Device(const std::string &bus, uint16_t slaveAddress,  std::shared_ptr<sol::state> lua)
 	: lua_(lua),
 	  stream_(std::make_unique<I2CDeviceStream>(bus, slaveAddress, lua_)),
-	  values_(std::make_unique<DeviceValues>(lua_->get<sol::table>("device"))),
+      values_(std::make_unique<DeviceStructure>(lua_->get<sol::table>("device"))),
 	  buffer_(values_->maxAddress())
 {
 	defineFunctionsForLua();
@@ -94,12 +94,12 @@ uint32_t Device::getParameterMaxValue(const Parameter &p) const
 	return p.getMaxValue();
 }
 
-void Device::setExtraParameterValue(const std::string &name, uint64_t value)
+void Device::setExtraParameterValue(const std::string &name, const std::string &value)
 {
 	values_->getExtraParameter(name).getSetter()(value);
 }
 
-uint32_t Device::getExtraParameterValue(const std::string &name) const
+std::string Device::getExtraParameterValue(const std::string &name) const
 {
 	return values_->getExtraParameter(name).getGetter()();
 }
@@ -202,7 +202,7 @@ void Device::flush()
 	stream_->multiwrite(0, buffer);
 }
 
-const DeviceValues& Device::getDeviceStructure() const
+const DeviceStructure& Device::getDeviceStructure() const
 {
 	return *values_;
 }

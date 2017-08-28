@@ -10,6 +10,7 @@ class ConfigurePanel : public ConfigurableDeviceDockWidget
 	Q_OBJECT
 public:
 	ConfigurePanel(QWidget *parent = nullptr);
+    ~ConfigurePanel();
 
 public slots:
 	virtual void receiveConfiguration(std::shared_ptr<Configuration> configuration);
