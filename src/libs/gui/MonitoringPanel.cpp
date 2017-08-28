@@ -69,15 +69,13 @@ void MonitoringPanel::update()
 	}
 
 	for (auto i = ui_->extraParameterValues.begin(); i != ui_->extraParameterValues.end(); ++i) {
-		i.value()->setText(QString::number(
-							   static_cast<uint32_t>(
-								   device_->getExtraParameterValue(i.key().toStdString()))));
+        i.value()->setText(QString::fromStdString(
+                               device_->getExtraParameterValue(i.key().toStdString())));
 	}
 
 	for (auto i = ui_->parameterValues.begin(); i != ui_->parameterValues.end(); ++i) {
-		i.value()->setText(QString::number(
-							   static_cast<uint32_t>(
-								   device_->getParameterValue(i.key().toStdString()))));
+        i.value()->setText(QString::fromStdString(
+                                   device_->getTransformedParameterValue(i.key().toStdString())));
 	}
 
 	for (auto i = ui_->flagStatuses.begin(); i != ui_->flagStatuses.end(); ++i) {

@@ -13,4 +13,13 @@ Parameter::Parameter(const sol::table &table)
 
 	description_ = table.get_or<std::string>("description", "");
 	size_ = table.get_or<uint8_t>("size", 0);
+
+    auto transformOnSet = table.get<sol::optional<sol::protected_function>>("transformOnSet");
+    if (transformOnSet) {
+       transformOnSet_ = transformOnSet.value();
+    }
+    auto transformOnGet = table.get<sol::optional<sol::protected_function>>("transformOnGet");
+    if (transformOnGet) {
+       transformOnGet_ = transformOnGet.value();
+    }
 }

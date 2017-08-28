@@ -33,12 +33,14 @@ public:
 	Device(const std::string &bus, uint16_t slaveAddress,  std::shared_ptr<sol::state> lua);
 	~Device();
 
+    void setTransformedParameterValue(const std::string &parameterName, const std::string &value);
 	void setParameterValue(const std::string &parameterName, uint64_t value);
 	void setParameterValue(const Parameter &p, uint64_t value);
-	uint32_t getParameterValue(const std::string &parameterName) const;
+    std::string getTransformedParameterValue(const std::string &parameterName);
+    uint32_t getParameterValue(const std::string &parameterName) const;
 	uint32_t getParameterValue(const Parameter &p) const;
 	uint32_t getParameterMaxValue(const std::string &parameterName) const;
-	uint32_t getParameterMaxValue(const Parameter &p) const;
+    uint32_t getParameterMaxValue(const Parameter &p) const;
 
     void setExtraParameterValue(const std::string &name, const std::string &value);
     std::string getExtraParameterValue(const std::string &name) const;

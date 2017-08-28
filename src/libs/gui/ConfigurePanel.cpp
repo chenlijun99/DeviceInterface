@@ -46,7 +46,7 @@ void ConfigurePanel::configure()
 	UiPanelConfiguration config =
 			configuration_->getConfigurePanelConfiguration();
 	device_->setBufferedIO(false);
-	device_->setParameterValue("dim", 0);
+    device_->setTransformedParameterValue("dim", "0");
 	device_->setBufferedIO(true);
 
     for (const QString& parameterName : config.getParameterNames()) {
@@ -54,16 +54,16 @@ void ConfigurePanel::configure()
 			continue;
 		}
 
-		device_->setParameterValue(parameterName.toStdString(),
-								   ui_->parameterLineEdits[parameterName]->number());
-		ui_->previousParameterLineEdits[parameterName]
+        device_->setTransformedParameterValue(parameterName.toStdString(),
+                                   std::to_string(ui_->parameterLineEdits[parameterName]->number()));
+        ui_->previousParameterLineEdits[parameterName]
 				->setText(QString::number(ui_->parameterLineEdits[parameterName]->number()));
 	}
 
 	for (const QString& flagName : config.getFlagNames()) {
 
 		device_->setFlagStatus(flagName.toStdString(),
-							   ui_->flagToggleButtons[flagName]->isChecked());
+                               ui_->flagToggleButtons[flagName]->isChecked());
 
 		ui_->previousFlagToggleButtons[flagName]
 				->setChecked(ui_->flagToggleButtons[flagName]->isChecked());
@@ -71,8 +71,8 @@ void ConfigurePanel::configure()
 	device_->flush();
 
 	device_->setBufferedIO(false);
-	device_->setParameterValue("dim",
-							   ui_->parameterLineEdits["dim"]->number());
+    device_->setTransformedParameterValue("dim",
+                               std::to_string(ui_->parameterLineEdits["dim"]->number()));
 	ui_->previousParameterLineEdits["dim"]->setText(
 				QString::number(ui_->parameterLineEdits["dim"]->number()));
 	device_->setBufferedIO(true);

@@ -66,6 +66,17 @@ uint8_t Device::getRegisterValue(uint16_t address) const
 {
 	return getValue({address});
 }
+
+void Device::setTransformedParameterValue(const std::string &parameterName, const std::string &value)
+{
+    Parameter p = values_->getParameter(parameterName);
+
+    if (p.getTransformOnSetFunction() != sol::nil) {
+        setParameterValue(p, p.getTransformOnSetFunction()(value));
+        return;
+    }
+    setParameterValue(p, std::stoul(value));
+}
 void Device::setParameterValue(const std::string &parameterName, uint64_t value)
 {
 	Parameter p = values_->getParameter(parameterName);
@@ -75,6 +86,18 @@ void Device::setParameterValue(const Parameter &p, uint64_t value)
 {
 	setValue(p.getAddresses(), value, getParameterMaxValue(p));
 }
+
+std::string Device::getTransformedParameterValue(const std::string &parameterName)
+{
+    Parameter p = values_->getParameter(parameterName);
+    auto value = getParameterValue(p);
+
+    if (p.getTransformOnGetFunction() != sol::nil) {
+        return p.getTransformOnGetFunction()(value).get<std::string>();
+    }
+    return std::to_string(value);
+}
+
 uint32_t Device::getParameterValue(const std::string &parameterName) const
 {
 	Parameter p = values_->getParameter(parameterName);
@@ -226,7 +249,10 @@ void Device::defineFunctionsForLua()
 	lua_->set_function("error_handler", errorHandler);
 	sol::protected_function::set_default_handler((*lua_)["error_handler"]);
 
-	lua_->set_function("getParameterValue",
+    lua_->set_function("getParameterMaxValue",
+                      static_cast<uint32_t (Device::*)(const std::string&) const>(&Device::getParameterMaxValue),
+                      this);
+    lua_->set_function("getParameterValue",
 					  static_cast<uint32_t (Device::*)(const std::string&) const>(&Device::getParameterValue),
 					  this);
 	lua_->set_function("setParameterValue",
