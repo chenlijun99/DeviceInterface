@@ -26,6 +26,7 @@ You can find produced binary in `bin` directory.
 
 * Qt >=5.7
 * libudev
+* liblua5.1
 
 ### Appimage
 
@@ -37,6 +38,15 @@ Run the following command to make the downloaded file executable.
 ```sh
 $ chmod -x ./DeviceInterface-x86_64.AppImage
 ```
+
+#### Appimage generation
+
+Download [`linuxdeployqt`](https://github.com/probonopd/linuxdeployqt/releases).
+
+After having compiled the source code, copy the generated binary in `project_root/bin/`
+to `project_root/DeviceInterface.AppDir/usr/bin/`.
+
+Move to `project_root/DeviceInterface.AppDir/` and run `linuxdeployqt usr/bin/DeviceInterface -appimage`
 
 #### Supported platforms
 The appimage has been generated on Ubuntu 16.04 (64-bit), thus it will work:
